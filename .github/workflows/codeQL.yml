@@ -7,6 +7,8 @@ on:
 jobs:
   CodeQL-Build:
     runs-on: ubuntu-latest
+    matrix:
+          language: ['javascript-typescript', 'python']
 
     permissions:
       # required for all workflows
@@ -20,8 +22,6 @@ jobs:
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
-        matrix:
-          language: ['javascript-typescript', 'python']
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
