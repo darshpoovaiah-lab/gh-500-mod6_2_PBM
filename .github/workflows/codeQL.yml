@@ -1,4 +1,13 @@
 name: "Code Scanning - Action"
+strategy:
+  matrix:
+    include:
+      # Analyze C and C++ code
+      - language: c-cpp
+        build-mode: autobuild
+      # Analyze Go code
+      - language: go
+        build-mode: autobuild
 
 on:
   pull_request:
@@ -7,8 +16,6 @@ on:
 jobs:
   CodeQL-Build:
     runs-on: ubuntu-latest
-    matrix:
-          language: ['javascript-typescript', 'python']
 
     permissions:
       # required for all workflows
@@ -22,6 +29,8 @@ jobs:
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
